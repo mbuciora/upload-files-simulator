@@ -1,0 +1,58 @@
+@import "src/styles.scss";
+.main-wrapper{
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 140px);
+  font-family: "Courier New";
+  background-color: #C5CBE3;
+  justify-content: space-between;
+}
+.time_header {
+  height: 80px;
+  background-color: #EFE2BA;
+  font-size: 26px;
+  text-align: center;
+  color: white;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding-left: 30%;
+  display: flex;
+  align-items: center;
+  font-family: "Courier New";
+}
+.content {
+  height: 70px;
+  background-color: $ghost-white;
+  font-size: 26px;
+  padding-left: 15%;
+  display: flex;
+  align-items: center;
+  font-family: "Courier New";
+  gap: 10px;
+  position: relative;
+  background-color: #C5CBE3;
+}
+
+.main_buttons {
+  font-style: "Courier New";
+  position: absolute;
+  left: 10%;
+  top: 5px;
+}
+
+.other_buttons {
+  font-family: "Courier New";
+  position: absolute;
+  right: 10%;
+  top: 5px;
+}
+
+.timer{
+  padding-left: 22px;
+  font-weight: bold;
+  color: #190100;
+  font-family: "Courier New";
+}
+.interval-form-field{
+  height: 50px;
+}

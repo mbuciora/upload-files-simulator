@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+$ghost-white: #F7F5FB;
+$base-background: #F7F5FB;
+$smoke-green: #F9AB55;
+$dark-orange: #F58A07;
+$blue: #084887;
+$wild-blue: #909CC2;
+
+
+.column {
+  display: flex;
+  justify-content: space-between;
+
+}
+
+html, body { height: 100%; }
+body {
+  margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: $base-background;
+}
+
+@font-face {
+  font-family: Jersey;
+  src: url(/assets/JerseyM54-aLX9.ttf);
+}
