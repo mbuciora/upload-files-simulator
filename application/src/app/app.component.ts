@@ -10,19 +10,19 @@ function rand(min: number, max: number): number {
 }
 
 // Calculating total score for given file
-function calcScore(file: File, waitingFrom: Date): number{
+function calcScore(file: File, waitingFrom: Date, clientsCount: number): number{
   const now = new Date();
-  return calcWeightScore(file.weight) + calcTimeScore(now.getTime() - waitingFrom.getTime());
+  return calcWeightScore(file.weight) / clientsCount + calcTimeScore(now.getTime() - waitingFrom.getTime()) * clientsCount;
 }
 
 // Calculating weight score for given file
 function calcWeightScore(weight: number): number{
-  return Math.pow(weight, 2) *  Math.pow(10, -7);
+  return Math.pow(weight, 2);
 }
 
 // Calculating time score for given file
 function calcTimeScore(seconds: number): number{
-  return 1 / (Math.pow(seconds, 2)) * Math.pow(10, -14);
+  return 1 / (Math.pow(seconds, 2));
 }
 
 // Main Page lookout
@@ -61,11 +61,14 @@ export class AppComponent implements OnInit {
   toggleState: string = 'stop;'
   source$ = new Subject<number>();
   time: string = '00.00.00'
+
   fileID: number = 0;
   nodes: Node[];
   private currentSubscription: Subscription = new Subscription();
   // Max files number per one klient
   maxFiles: any = 6;
+  // Clients number
+  clientsCount: number = rand(5, 8);
 
   getAllFiles(): File[]{
     const allFiles: File[] = [];
@@ -117,11 +120,12 @@ export class AppComponent implements OnInit {
 
             // If Node can is able to receive a file, find a list of proper clients and check the scores of their files
             if (node.status === NodeStatus.WAITING && this.clients.length > 0) {
+              const clientsNumber: number = this.clients.length
               const client:ClientData = this.clients
                 .filter(client => client.status === ClientStatus.WAITING)
                 .filter(client => client.files.length > 0)
                 .reduce(function(prev, curr) {
-                  return (calcScore(prev.files[0], prev.waitingFrom) < calcScore(curr.files[0], curr.waitingFrom))
+                  return (calcScore(prev.files[0], prev.waitingFrom, clientsNumber) < calcScore(curr.files[0], curr.waitingFrom, clientsNumber))
                       ? prev : curr;
                 });
 
@@ -180,11 +184,8 @@ export class AppComponent implements OnInit {
     this.clients = [];
     const now = new Date();
 
-    // Clients number
-    const clientsCount = rand(5, 8);
-
     // Initialize clients content - minimum files = 3
-    for (let i = 0; i < clientsCount; i++) {
+    for (let i = 0; i < this.clientsCount; i++) {
       const filesCount = rand(3, this.maxFiles);
       // Set initial data for client
       let newClient: ClientData = {
